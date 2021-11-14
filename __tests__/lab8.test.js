@@ -71,7 +71,7 @@ describe('Basic user flow for Website', () => {
     let TF=true;
     // TODO - Step 2
     // Query a <product-item> element using puppeteer ( checkout page.$() and page.$$() in the docs )
-    const prodItems=await page.$$('product_item');
+    const prodItems=await page.$$('product-item');
     // Grab the shadowRoot of that element (it's a property), then query a button from that shadowRoot.
     let shadowRoot=await prodItems[0].getProperty('shadowRoot');
     let button=await shadowRoot.$('button');
@@ -79,10 +79,12 @@ describe('Basic user flow for Website', () => {
     await button.click();
     let innerText=await button.getProperty('innerText');
     // Once you have the innerText property, use innerText['_remoteObject'].value to get the text value of it
-    text=await innerText['_remoteObject'].value;  
+    let text=await innerText['_remoteObject'].value;  
     if(text!="Remove from Cart"){
       TF=false;
     }
+    await button.click();
+    //make it back 
     expect(TF).toBe(true);
     
   }, 2500);
@@ -94,7 +96,7 @@ describe('Basic user flow for Website', () => {
     // TODO - Step 3
     let TF=true;
     // Query select all of the <product-item> elements, then for every single product element
-    const prodItems=await page.$$('product_item');
+    const prodItems=await page.$$('product-item');
     // get the shadowRoot and query select the button inside, and click on it.
     let shadowRoot,button;
     for(let i=0;i<prodItems.length;i++){
@@ -120,7 +122,7 @@ describe('Basic user flow for Website', () => {
     // Reload the page, then select all of the <product-item> elements, and check every
     await page.reload();
     // element to make sure that all of their buttons say "Remove from Cart".
-    const prodItems=await page.$$('product_item');
+    const prodItems=await page.$$('product-item');
     for(let i=0;i<prodItems.length;i++){
       let shadowRoot=await prodItems[i].getProperty('shadowRoot');
       let button=await shadowRoot.$('button');
@@ -161,7 +163,7 @@ describe('Basic user flow for Website', () => {
     // Go through and click "Remove from Cart" on every single <product-item>, just like above.
     // Once you have, check to make sure that #cart-count is now 0
     let TF=true;
-    const prodItems=await page.$$('product_item');
+    const prodItems=await page.$$('product-item');
     let shadowRoot,button;
     for(let i=0;i<prodItems.length;i++){
       shadowRoot=await prodItems[i].getProperty('shadowRoot');
@@ -188,7 +190,7 @@ describe('Basic user flow for Website', () => {
     // Also check to make sure that #cart-count is still 0
     let TF=true;
     await page.reload();
-    const prodItems=await page.$$('product_item');
+    const prodItems=await page.$$('product-item');
     for(let i=0;i<prodItems.length;i++){
       let shadowRoot=await prodItems[i].getProperty('shadowRoot');
       let button=await shadowRoot.$('button');
