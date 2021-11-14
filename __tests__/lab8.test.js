@@ -214,5 +214,11 @@ describe('Basic user flow for Website', () => {
     console.log('Checking the localStorage...');
     // TODO - Step 8
     // At this point he item 'cart' in localStorage should be '[]', check to make sure it is
+    let TF=true;
+    let cart=await page.$eval(()=>localStorage.getItem('cart'));
+    if(cart!='[]'){
+      TF=false;
+    }
+    expect(TF).toBe(true);
   });
 });
